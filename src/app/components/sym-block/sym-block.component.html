@@ -1,0 +1,7 @@
+<div routerLinkActive="bg-primary" class="container">
+    <p class="symbol title">{{stock.SYMBOL}}</p>
+    <div class="icons">
+        <button (click)="changeStock()" routerLink="/{{stock.SYMBOL}}" class="btn btn-sm btn-outline-primary"><i
+                class="bi bi-box-arrow-up-right"></i></button>
+    </div>
+</div>

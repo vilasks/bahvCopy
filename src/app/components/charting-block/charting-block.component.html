@@ -1,0 +1,8 @@
+<ng-container *ngIf="!stock">
+    <p class="h1">Home</p>
+</ng-container>
+
+<ng-container *ngIf="stock">
+    <p class="h1">{{stock}}</p>
+    <app-chart [symbol]="stock"></app-chart>
+</ng-container>
