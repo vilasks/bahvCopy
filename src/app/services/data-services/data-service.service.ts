@@ -19,4 +19,16 @@ export class DataServiceService {
     )
   }
 
+
+  changeInterval(symbol:string,i:number){
+    return this.http.get(
+      `${environment.apiUrl}/get-data/${symbol}?i=${i}`,
+      {
+        headers:{
+          "content-type": "application/json"
+        }
+      }
+    )
+  }
+
 }

@@ -6,4 +6,6 @@
         <button (click)="changeStyle('scatter')">Scatter</button>
         <button (click)="changeStyle('bar')">Bar</button>
     </div>
+    <input type="range" (change)="changeIntervel(val.value)" #val class="form-range" min="0" max="2000"
+        id="customRange2">
 </div>

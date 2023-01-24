@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import {Chart,ChartType } from 'chart.js/auto'
 import { DataServiceService } from 'src/app/services/data-services/data-service.service';
 import { SymbolsService } from 'src/app/services/symbols-services/symbols.service';
-
+import { min,max} from 'lodash'
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
@@ -30,6 +30,8 @@ export class ChartComponent implements OnInit {
               data:this.data,
               type: this.type,
               label: this.staticLabel,
+              // pointStyle: "line",
+              pointRadius: 0
             }
           ]
         },
@@ -59,15 +61,7 @@ export class ChartComponent implements OnInit {
     this.dataService.getDate(symbol).subscribe(
       (data:any)=>{
         this.data = data.data
-        this.chart.data.datasets[0].data = data.data.map((e:any)=>{
-          return e.CLOSE
-        })
-        this.chart.data.labels = data.data.map((e:any)=>{
-          return new Date(e.TIMESTAMP).toDateString()
-        })
-        this.chart.options.scales.y.min = 0
-        this.chart.options.scales.y.max = 100
-        this.chart.update()
+        this.updateChart(data)
       },
       (err:any)=>{
         console.log(err)
@@ -76,8 +70,43 @@ export class ChartComponent implements OnInit {
   }
 
   changeStyle(type:ChartType){
+    if(type=="scatter"){
+      this.chart.data.datasets[0].pointRadius = 5
+    }else{
+      this.chart.data.datasets[0].pointRadius = 0
+    }
     this.chart.data.datasets[0].type = type
     this.chart.update()    
   }
+
+  changeIntervel(intervel:string){
+    let i = parseInt(intervel)
+    this.dataService.changeInterval(this.symbol,i).subscribe(
+      (data:any)=>{
+        this.updateChart(data)
+      },
+      (err)=>{
+        console.log(err)
+      }
+    )
+  }
+
+  updateChart(data:any){
+    let priceArr = data.data.map((e:any)=>{
+      return e.CLOSE
+    })
+
+    let dates = data.data.map((e:any)=>{
+      return new Date(e.TIMESTAMP).toDateString()
+    })
+
+    this.chart.data.datasets[0].data = priceArr
+    this.chart.data.labels = dates 
+    this.chart.options.scales.y.min = (min(priceArr) as number) - 10
+    this.chart.options.scales.y.max = (max(priceArr) as number) + 10
+    this.chart.update()
+  }
+
+  
 
 }
