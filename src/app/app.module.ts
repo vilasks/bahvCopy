@@ -8,7 +8,9 @@ import { SymBlockComponent } from './components/sym-block/sym-block.component';
 import { SymbolsListComponent } from './components/symbols-list/symbols-list.component';
 import { ChartingBlockComponent } from './components/charting-block/charting-block.component';
 import { ChartComponent } from './components/chart/chart.component';
-import { FormsModule,ReactiveFormsModule} from '@angular/forms'
+import { FormsModule,ReactiveFormsModule} from '@angular/forms';
+import { BitesComponent } from './components/bites/bites.component';
+import { HighLowCardsComponent } from './components/high-low-cards/high-low-cards.component'
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { FormsModule,ReactiveFormsModule} from '@angular/forms'
     SymBlockComponent,
     SymbolsListComponent,
     ChartingBlockComponent,
-    ChartComponent
+    ChartComponent,
+    BitesComponent,
+    HighLowCardsComponent
   ],
   imports: [
     BrowserModule,

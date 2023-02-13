@@ -3,6 +3,12 @@ main {
     flex-direction: row;
 }
 
+.main {
+    overflow-y: scroll;
+    height: 100vh;
+    width: 100vw;
+}
+
 .sidebar {
     border-right: solid 2px black;
 }

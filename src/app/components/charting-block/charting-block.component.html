@@ -1,8 +1,11 @@
-<ng-container *ngIf="!stock">
-    <p class="h1">Home</p>
-</ng-container>
+<div class="chart-container">
+    <ng-container *ngIf="!stock">
+        <p class="h1">Home</p>
+    </ng-container>
 
-<ng-container *ngIf="stock">
-    <p class="h1">{{stock}}</p>
-    <app-chart [symbol]="stock"></app-chart>
-</ng-container>
+    <ng-container *ngIf="stock">
+        <p class="h1">{{stock}}</p>
+        <app-chart [symbol]="stock"></app-chart>
+        <app-bites [symbol]="stock"></app-bites>
+    </ng-container>
+</div>

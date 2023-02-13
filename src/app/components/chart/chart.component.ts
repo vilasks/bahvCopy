@@ -37,6 +37,10 @@ export class ChartComponent implements OnInit {
         },
         options:{
           // responsive: true,
+          interaction:{
+            intersect: false,
+            mode: "index"
+          },
           scales:{
             y:{
               suggestedMin:300,

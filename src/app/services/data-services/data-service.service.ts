@@ -31,4 +31,15 @@ export class DataServiceService {
     )
   }
 
+  getbites(symbol:string){
+    return this.http.get(
+      `${environment.apiUrl}/bites?symbol=${symbol}`,
+      {
+        headers:{
+          'content-type': "application/json"
+        }
+      }
+    )
+  }
+
 }
