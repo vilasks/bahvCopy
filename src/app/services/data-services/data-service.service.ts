@@ -42,4 +42,8 @@ export class DataServiceService {
     )
   }
 
+  getHighlights(){
+    return this.http.get(`${environment.apiUrl}/highlights`)
+  }
+
 }

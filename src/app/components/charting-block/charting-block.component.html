@@ -1,6 +1,28 @@
 <div class="chart-container">
     <ng-container *ngIf="!stock">
-        <p class="h1">Home</p>
+        <p class="h1 text-center">Home</p>
+        <h5>Today's {{Today}} HighLights</h5>
+        <div class="card">
+            <div class="card-header">
+                <div class="title">
+                    TOP 5 Gainers
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div *ngFor="let top5 of data.TOP_5_GAINERS" style="width:18rem" class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    {{top5.SYMBOL}}
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {{top5.CLOSE}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ng-container>
 
     <ng-container *ngIf="stock">
