@@ -1,7 +1,28 @@
 <div class="chart-container">
     <ng-container *ngIf="!stock">
         <p class="h1 text-center">Home</p>
-        <h5>Today's {{Today}} HighLights</h5>
+        <h5>{{data.TIMEFRAME}} HighLights</h5>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="title">
+                    INDEXES
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-row justify-content-between flex-wrap">
+                    <div *ngFor="let index of indexes_data" class="card" style="width: 18rem;">
+                        <div class="card-header">
+                            <h5 class="title">{{index.INDEX}}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>OPEN {{index.OPEN}}</p>
+                            <p>CLOSE {{index.CLOSE}}</p>
+                            <p>CHANGE {{index.CHANGE}}%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header">
                 <div class="title">
@@ -10,6 +31,27 @@
                 <div class="card-body">
                     <div class="d-flex flex-row justify-content-between">
                         <div *ngFor="let top5 of data.TOP_5_GAINERS" style="width:18rem" class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    {{top5.SYMBOL}}
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {{top5.CLOSE}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="title">
+                    TOP 5 Losers
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div *ngFor="let top5 of data.TOP_5_LOSERS" style="width:18rem" class="card">
                             <div class="card-header">
                                 <div class="card-title">
                                     {{top5.SYMBOL}}

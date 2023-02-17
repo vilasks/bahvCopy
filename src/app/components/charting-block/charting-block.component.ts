@@ -11,8 +11,9 @@ export class ChartingBlockComponent implements OnInit {
 
   constructor(private router:Router,private dataService:DataServiceService) { }
   @Input() stock!:string|null;
-  Today:string = new Date().toDateString();
   data:any;
+  indexes = ["Nifty 50","Nifty IT","Nifty Bank","Nifty Realty","Nifty Infra","Nifty Energy","Nifty FMCG","Nifty MNC","Nifty Pharma","Nifty PSE","Nifty PSU Bank","India Vix","Nifty Auto","Nifty Metal","Nifty Media"]
+  indexes_data:any = []
   ngOnInit(): void {
     this.getHighlights()
   }
@@ -22,12 +23,26 @@ export class ChartingBlockComponent implements OnInit {
       (data:any)=>{
         if(data.status=="00"){
           this.data = data.data;
+          this.getIndex()
         }
       },
       (err)=>{
         console.log(err);
       }
     )
+  }
+
+  getIndex(){
+    this.indexes_data = this.data.INDEXES.filter((ele:any)=>{
+      for(let i=0;i<this.indexes.length;i++){
+        if(ele.INDEX==this.indexes[i]){
+          return true
+        }
+      }
+      return false
+    })
+
+    console.log(this.indexes_data)
   }
 
 }
