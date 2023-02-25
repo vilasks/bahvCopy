@@ -19,6 +19,8 @@ export class ChartComponent implements OnInit {
   staticLabel:string = "Static Label"
   options:any;
   type:ChartType = "line"
+  currentInterval:number = 7;
+  currentevent:any = null;
   ngOnInit(): void {
     this.chart = new Chart(
       "chart",
@@ -39,7 +41,7 @@ export class ChartComponent implements OnInit {
           // responsive: true,
           interaction:{
             intersect: false,
-            mode: "index"
+            mode: "index",
           },
           scales:{
             y:{
@@ -47,7 +49,7 @@ export class ChartComponent implements OnInit {
               suggestedMax: 340,
             }
           }
-        }
+        },
       }
     )
 
@@ -111,6 +113,25 @@ export class ChartComponent implements OnInit {
     this.chart.update()
   }
 
-  
+  wheelEvent(e:any){
+    if(e.deltaY>0){
+      this.currentInterval+=7
+      if(this.currentevent){
+        clearInterval(this.currentevent)
+        this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
+      }else{
+        this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
+      }
+    }else{
+      this.currentInterval-=7
+      if(this.currentevent){
+        clearInterval(this.currentevent)
+        this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
+      }else{
+        this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
+      }
+    }
+    e.preventDefault()
+  }
 
 }

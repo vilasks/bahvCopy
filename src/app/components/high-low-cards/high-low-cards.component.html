@@ -5,8 +5,8 @@
     <div class="card-body">
         <div class="container">
             <div class="container-fluid">
-                <input class="form-range" readonly aria-label="52week" type="range" min="{{data.low}}"
-                    max="{{data.high}}" value="{{data.curr}}">
+                <input [attr.disabled]="true" class="form-range" readonly aria-label="52week" type="range"
+                    min="{{data.low}}" max="{{data.high}}" value="{{data.curr}}">
                 <div class="d-flex flex-row  justify-content-between">
                     <div>{{data.low}}</div>
                     <div>{{data.high}}</div>

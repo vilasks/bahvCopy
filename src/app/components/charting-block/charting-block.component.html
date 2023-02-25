@@ -1,68 +1,71 @@
 <div class="chart-container">
     <ng-container *ngIf="!stock">
-        <p class="h1 text-center">Home</p>
-        <h5>{{data.TIMEFRAME}} HighLights</h5>
-        <div class="card">
-            <div class="card-header">
-                <h3 class="title">
-                    INDEXES
-                </h3>
-            </div>
-            <div class="card-body">
-                <div class="d-flex flex-row justify-content-between flex-wrap">
-                    <div *ngFor="let index of indexes_data" class="card" style="width: 18rem;">
-                        <div class="card-header">
-                            <h5 class="title">{{index.INDEX}}</h5>
+        <div class="container">
+            <h3 class="title">Index Performance</h3>
+            <div class="indexs-div">
+                <ng-container *ngFor="let index of indexes_data">
+                    <div class="main-div">
+                        <div class="title-div">
+                            <p class="label-title">{{index.INDEX}}</p>
                         </div>
-                        <div class="card-body">
-                            <p>OPEN {{index.OPEN}}</p>
-                            <p>CLOSE {{index.CLOSE}}</p>
-                            <p>CHANGE {{index.CHANGE}}%</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <div class="title">
-                    TOP 5 Gainers
-                </div>
-                <div class="card-body">
-                    <div class="d-flex flex-row justify-content-between">
-                        <div *ngFor="let top5 of data.TOP_5_GAINERS" style="width:18rem" class="card">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    {{top5.SYMBOL}}
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                {{top5.CLOSE}}
+                        <div class="numbers-div">
+                            <div class="closing-number"
+                                [ngClass]="{'positive':index.CHANGE>0,'negative':index.CHANGE<0}">
+                                <p class="label-title-2">
+                                    {{index.CLOSE}}<i
+                                        [ngClass]="{'bi bi-arrow-up':index.CHANGE>0,'bi bi-arrow-down':index.CHANGE<0}"></i>
+                                </p>
+                                <p class="label-title-3">{{index.CHANGE}}</p>
                             </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header">
-                <div class="title">
-                    TOP 5 Losers
-                </div>
-                <div class="card-body">
-                    <div class="d-flex flex-row justify-content-between">
-                        <div *ngFor="let top5 of data.TOP_5_LOSERS" style="width:18rem" class="card">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    {{top5.SYMBOL}}
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                {{top5.CLOSE}}
+
+        <div class="container">
+            <h3 class="title">Top 5 Gainers</h3>
+            <div class="indexs-div">
+                <ng-container *ngFor="let index of data.TOP_5_GAINERS">
+                    <div class="main-div">
+                        <div class="title-div">
+                            <p class="label-title">{{index.SYMBOL}}</p>
+                        </div>
+                        <div class="numbers-div">
+                            <div class="closing-number"
+                                [ngClass]="{'positive':index.CHANGE>0,'negative':index.CHANGE<0}">
+                                <p class="label-title-2">
+                                    {{index.CLOSE}}<i
+                                        [ngClass]="{'bi bi-arrow-up':index.CHANGE>0,'bi bi-arrow-down':index.CHANGE<0}"></i>
+                                </p>
+                                <p class="label-title-3">{{index.CHANGE}}%</p>
                             </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="container">
+            <h3 class="title">Top 5 Losers</h3>
+            <div class="indexs-div">
+                <ng-container *ngFor="let index of data.TOP_5_LOSERS">
+                    <div class="main-div">
+                        <div class="title-div">
+                            <p class="label-title">{{index.SYMBOL}}</p>
+                        </div>
+                        <div class="numbers-div">
+                            <div class="closing-number"
+                                [ngClass]="{'positive':index.CHANGE>0,'negative':index.CHANGE<0}">
+                                <p class="label-title-2">
+                                    {{index.CLOSE}}<i
+                                        [ngClass]="{'bi bi-arrow-up':index.CHANGE>0,'bi bi-arrow-down':index.CHANGE<0}"></i>
+                                </p>
+                                <p class="label-title-3">{{index.CHANGE}}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
             </div>
         </div>
     </ng-container>
@@ -73,3 +76,14 @@
         <app-bites [symbol]="stock"></app-bites>
     </ng-container>
 </div>
+<!-- <div class="main-div">
+    <div class="title-div">
+        <p class="label-title">LABEL</p>
+    </div>
+    <div class="numbers-div">
+        <div class="closing-number">
+            <p class="label-title-2 positive">17202<i class="bi bi-arrow-up"></i></p>
+            <p class="label-title-3 positive">+122</p>
+        </div>
+    </div>
+</div> -->
