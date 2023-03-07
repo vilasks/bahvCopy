@@ -4,6 +4,7 @@ import {Chart,ChartType } from 'chart.js/auto'
 import { DataServiceService } from 'src/app/services/data-services/data-service.service';
 import { SymbolsService } from 'src/app/services/symbols-services/symbols.service';
 import { min,max} from 'lodash'
+import zoomPlugin  from 'chartjs-plugin-zoom';
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
@@ -12,6 +13,7 @@ import { min,max} from 'lodash'
 export class ChartComponent implements OnInit {
 
   constructor(private dataService:DataServiceService,private symbolService:SymbolsService) { }
+  
   @Input() symbol!:string
   data:Array<number> = [1,2,3,4,5,6,7]
   label:Array<string> = ["a","b","c","d","e","f","g"]
@@ -21,7 +23,78 @@ export class ChartComponent implements OnInit {
   type:ChartType = "line"
   currentInterval:number = 7;
   currentevent:any = null;
+  crosshair:any;
+  
   ngOnInit(): void {
+    let crosshair:any;
+    let crosshairLabel = {
+      id: "crosshairLabel",
+
+      //drawing part
+      afterDatasetsDraw(chart:any,args:any,plugins:any){
+        const {ctx,chartArea:{left,right,top,bottom},scales:{x,y}} = chart;
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "black";
+        if(crosshair){
+          ctx.save()
+          ctx.beginPath()
+          crosshair.forEach((line:any,index:number)=>{
+            ctx.moveTo(line.startX,line.startY)
+            ctx.lineTo(line.endX,line.endY)
+            ctx.stroke()
+          })
+          ctx.fillStyle = 'grey';
+          ctx.fillRect(0,crosshair[0].startY-10,left,20)
+          ctx.font = 'bold 12px sans-serif';
+          ctx.fillStyle = "white"
+          ctx.textAlign = "center"
+          ctx.fillText(y.getValueForPixel(crosshair[0].startY).toFixed(2),left/2,crosshair[0].startY)
+        }
+      },
+
+      //mouse event
+      afterEvent(chart:any,args:any){
+        const {ctx,chartArea:{left,right,top,bottom}} = chart;
+        const Xpos = args.event.x;
+        const Ypos = args.event.y;
+        
+        if(!args.inChartArea && crosshair){
+          crosshair = undefined
+          args.changed = true;
+        }else if(args.inChartArea){
+          crosshair = [
+            {
+              startX: left,
+              startY: Ypos,
+              endX: right,
+              endY: Ypos
+            },
+            {
+              startX: Xpos,
+              startY: top,
+              endX: Xpos,
+              endY: bottom
+            }
+          ];
+          args.changed = true;
+        }
+
+      }
+    }
+
+    const plugin = {
+      id: 'customCanvasBackgroundColor',
+      beforeDraw: (chart:any, args:any, options:any) => {
+        const {ctx} = chart;
+        ctx.save();
+        ctx.globalCompositeOperation = 'destination-over';
+        ctx.fillStyle = options.color || '#f0f0f0';
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
+      }
+    };
+
+    Chart.register(zoomPlugin);
     this.chart = new Chart(
       "chart",
       {
@@ -33,26 +106,50 @@ export class ChartComponent implements OnInit {
               type: this.type,
               label: this.staticLabel,
               // pointStyle: "line",
-              pointRadius: 0
+              pointRadius: 0,
+
             }
           ]
         },
         options:{
           // responsive: true,
+          
           interaction:{
             intersect: false,
             mode: "index",
           },
+
+          layout:{
+            padding: 10
+          },
+          
           scales:{
             y:{
               suggestedMin:300,
               suggestedMax: 340,
+              grid:{
+                lineWidth: 1
+              }
+            },
+            x:{
+              grid:{
+                lineWidth: 0.1
+              }
+            },
+            
+          },
+          plugins:{
+            legend:{
+              display:false
             }
           }
         },
+        plugins: [
+          plugin,
+          crosshairLabel,
+        ]
       }
     )
-
     this.getDate()
 
     this.symbolService.stock.subscribe(
@@ -103,7 +200,7 @@ export class ChartComponent implements OnInit {
     })
 
     let dates = data.data.map((e:any)=>{
-      return new Date(e.TIMESTAMP).toDateString()
+      return this.formatDate(e.TIMESTAMP)
     })
 
     this.chart.data.datasets[0].data = priceArr
@@ -132,6 +229,15 @@ export class ChartComponent implements OnInit {
       }
     }
     e.preventDefault()
+  }
+
+  formatDate(val:string){
+    let date = new Date(val).toLocaleDateString().split("/")
+    let tmp = date[0]
+    date[0] = date[1]
+    date[1] = tmp
+    date[2] = date[2].substr(-2)
+    return date.join("/")
   }
 
 }

@@ -1,11 +1,20 @@
 <div style="width: 80vw;">
     <p>{{symbol}}</p>
-    <canvas (wheel)="wheelEvent($event)" id="chart"></canvas>
-    <div class="d-flex flex-row">
-        <button (click)="changeStyle('line')">Line</button>
-        <button (click)="changeStyle('scatter')">Scatter</button>
-        <button (click)="changeStyle('bar')">Bar</button>
+    <canvas id="chart"></canvas>
+    <div class="chart-controls">
+        <input aria-label="interval" type="range" (change)="changeIntervel(val.value)" #val class="form-range" min="0"
+            max="2000" id="customRange2">
+        <div class="d-flex flex-row">
+            <button (click)="changeStyle('line')"><span class="material-symbols-outlined">
+                    show_chart
+                </span></button>
+            <button (click)="changeStyle('scatter')"><span class="material-symbols-outlined">
+                    scatter_plot
+                </span></button>
+            <button (click)="changeStyle('bar')"><span class="material-symbols-outlined">
+                    bar_chart
+                </span></button>
+        </div>
     </div>
-    <input aria-label="interval" type="range" (change)="changeIntervel(val.value)" #val class="form-range" min="0"
-        max="2000" id="customRange2">
+
 </div>

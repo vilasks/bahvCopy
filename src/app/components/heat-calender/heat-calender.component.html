@@ -1,0 +1,10 @@
+<div class="container">
+    <div *ngFor="let stock of data" class="values-holder">
+        <div class="date-holder">
+            {{stock.TIMESTAMP | date:"dd/MM/YY"}}
+        </div>
+        <div [ngClass]="{'positive':stock.CHANGE>0,'negative':stock.CHANGE<0}" class="percent-holder">
+            <div class="num">{{stock.CHANGE | number:'1.1-2'}}%</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+.chart-controls {
+    display: flex;
+    flex-direction: row;
+}

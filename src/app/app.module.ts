@@ -10,7 +10,9 @@ import { ChartingBlockComponent } from './components/charting-block/charting-blo
 import { ChartComponent } from './components/chart/chart.component';
 import { FormsModule,ReactiveFormsModule} from '@angular/forms';
 import { BitesComponent } from './components/bites/bites.component';
-import { HighLowCardsComponent } from './components/high-low-cards/high-low-cards.component'
+import { HighLowCardsComponent } from './components/high-low-cards/high-low-cards.component';
+import { HeatCalenderComponent } from './components/heat-calender/heat-calender.component'
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -21,14 +23,16 @@ import { HighLowCardsComponent } from './components/high-low-cards/high-low-card
     ChartingBlockComponent,
     ChartComponent,
     BitesComponent,
-    HighLowCardsComponent
+    HighLowCardsComponent,
+    HeatCalenderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -15,13 +15,15 @@ export class ChartingBlockComponent implements OnInit {
   indexes = ["Nifty 50","Nifty IT","Nifty Bank","Nifty Realty","Nifty Infra","Nifty Energy","Nifty FMCG","Nifty MNC","Nifty Pharma","Nifty PSE","Nifty PSU Bank","India Vix","Nifty Auto","Nifty Metal","Nifty Media"]
   indexes_data:any = []
   ngOnInit(): void {
-    this.getHighlights()
+    if(!this.stock){
+      this.getHighlights()
+    }
   }
 
   getHighlights(){
     this.dataService.getHighlights().subscribe(
       (data:any)=>{
-        if(data.status=="00"){
+        if(data.status==1){
           this.data = data.data;
           this.getIndex()
         }
