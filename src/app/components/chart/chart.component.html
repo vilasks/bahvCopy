@@ -1,10 +1,10 @@
-<div style="width: 80vw;">
+<div class="chart-container">
     <p>{{symbol}}</p>
     <canvas id="chart"></canvas>
     <div class="chart-controls">
         <input aria-label="interval" type="range" (change)="changeIntervel(val.value)" #val class="form-range" min="0"
             max="2000" id="customRange2">
-        <div class="d-flex flex-row">
+        <div class="chart-type">
             <button (click)="changeStyle('line')"><span class="material-symbols-outlined">
                     show_chart
                 </span></button>

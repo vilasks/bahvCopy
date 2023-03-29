@@ -12,3 +12,43 @@ main {
 .sidebar {
     border-right: solid 2px black;
 }
+
+.nav-bar {
+    display: none;
+}
+
+/* small Mobile devices */
+@media screen and (max-width:759px) {
+    .sidebar {
+        display: none;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .nav-bar>input {
+        width: 50vw;
+    }
+}
+
+
+
+/* regular mobile devices */
+@media screen and (max-width:1023px) {}
+
+@media screen and (max-width:1199px) {}

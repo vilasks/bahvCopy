@@ -55,3 +55,10 @@ p {
 .container {
     margin-top: 2%;
 }
+
+@media screen and (max-width:759px) {}
+
+/* regular mobile devices */
+@media screen and (max-width:1023px) {}
+
+@media screen and (max-width:1199px) {}

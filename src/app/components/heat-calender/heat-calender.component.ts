@@ -45,7 +45,7 @@ export class HeatCalenderComponent implements OnInit, OnChanges {
   formatData(data:any){
     this.data =  data.map((ele:any)=>{
       ele.CHANGE = ele.CLOSE - ele.PREVCLOSE
-      ele.CHANGEPERCENT = ((ele.CLOSE - ele.PREVCLOSE)/ele.CLOSE)*100
+      ele.CHANGEPERCENT = ((ele.CLOSE - ele.PREVCLOSE)/ele.PREVCLOSE)*100
       return ele 
     })
   }
