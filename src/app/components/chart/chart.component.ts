@@ -1,10 +1,11 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup,FormBuilder, Validators } from '@angular/forms';
 import {Chart,ChartType } from 'chart.js/auto'
 import { DataServiceService } from 'src/app/services/data-services/data-service.service';
 import { SymbolsService } from 'src/app/services/symbols-services/symbols.service';
 import { min,max} from 'lodash'
 import zoomPlugin  from 'chartjs-plugin-zoom';
+import { AlertServiceService } from 'src/app/services/alert-service/alert-service.service';
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
@@ -12,7 +13,12 @@ import zoomPlugin  from 'chartjs-plugin-zoom';
 })
 export class ChartComponent implements OnInit {
 
-  constructor(private dataService:DataServiceService,private symbolService:SymbolsService) { }
+  constructor(
+    private dataService:DataServiceService,
+    private symbolService:SymbolsService,
+    private formBuilder:FormBuilder,
+    private alertService:AlertServiceService
+    ) { }
   
   @Input() symbol!:string
   data:Array<number> = [1,2,3,4,5,6,7]
@@ -24,8 +30,17 @@ export class ChartComponent implements OnInit {
   currentInterval:number = 7;
   currentevent:any = null;
   crosshair:any;
-  
+  createAlert:FormGroup = this.formBuilder.group({
+      symbol: new FormControl('',[Validators.required]),
+      price: new FormControl('',{
+        validators: [Validators.required],
+        asyncValidators: [],
+        updateOn: 'blur'
+      })
+    });
+  submitInProgress:boolean = false;
   ngOnInit(): void {
+
     let crosshair:any;
     let crosshairLabel = {
       id: "crosshairLabel",
@@ -106,8 +121,7 @@ export class ChartComponent implements OnInit {
               type: this.type,
               label: this.staticLabel,
               // pointStyle: "line",
-              pointRadius: 0,
-
+              pointRadius: 0
             }
           ]
         },
@@ -238,6 +252,49 @@ export class ChartComponent implements OnInit {
     date[1] = tmp
     date[2] = date[2].substr(-2)
     return date.join("/")
+  }
+
+  openCreateForm(){
+    this.createAlert.patchValue(
+      {
+        symbol: this.symbol,
+        price: this.roundOffPrice(this.chart.data.datasets[0].data[this.chart.data.datasets[0].data.length - 1])
+      }
+    )
+  }
+
+  submitCreateAlert(){
+    this.submitInProgress = true 
+    this.setPrice(this.roundOffPrice(this.createAlert.get("price")?.value))
+    this.alertService.createAlert(this.createAlert.value).subscribe(
+      (data:any)=>{
+        if(data.status === 1){
+          console.log("create success");
+        }else{
+          console.log("create failure")
+        }
+        this.submitInProgress = false;
+      },
+      (err)=>{
+        this.submitInProgress = false;
+        console.log(err)
+        console.log("create failure")
+      }
+    )
+  }
+
+
+  roundOffPrice(price:any){
+    if(typeof price === "number"){
+      return Number(price.toFixed(1))
+    }else if(typeof price === "string"){
+      return Number(Number(price).toFixed(1))
+    }
+    return price
+  }
+
+  setPrice(value:any){
+    this.createAlert.patchValue({price: value})
   }
 
 }

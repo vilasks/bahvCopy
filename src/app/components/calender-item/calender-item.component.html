@@ -1,0 +1,21 @@
+<ng-container *ngIf="data.CHANGEPERCENT">
+    <div class="values-holder">
+        <div class="date-holder">
+            {{data.TIMESTAMP | date:"dd/MM/YY"}}
+        </div>
+        <div [ngClass]="{'positive':data.CHANGEPERCENT>0,'negative':data.CHANGEPERCENT<0}" class="percent-holder">
+            <div class="num">{{data.CHANGEPERCENT | number:'1.1-2'}}%</div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="!data.CHANGEPERCENT">
+    <div class="no-values-holder">
+        <div class="date-holder">
+            {{data.TIMESTAMP | date:"dd/MM/YY"}}
+        </div>
+        <div class="percent-holder no-data">
+            <div class="num">-.--%</div>
+        </div>
+    </div>
+</ng-container>

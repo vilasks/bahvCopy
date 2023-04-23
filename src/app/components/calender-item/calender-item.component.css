@@ -1,0 +1,52 @@
+.values-holder {
+    width: 76px;
+    height: 76px;
+    border-radius: 10px;
+    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 5px;
+}
+
+.no-values-holder {
+    width: 76px;
+    height: 76px;
+    border-radius: 10px;
+    background-color: rgba(232, 232, 232, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 5px;
+}
+
+.date-holder {
+    font-family: 'Roboto', sans-serif;
+    font-size: small;
+    text-align: center;
+}
+
+.percent-holder {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #13C610;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    color: white;
+}
+
+.positive {
+    background-color: #13C610;
+}
+
+.negative {
+    background-color: #DE0000;
+}
+
+.no-data {
+    background-color: rgba(196, 195, 195, 0.3);
+}

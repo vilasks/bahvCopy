@@ -46,4 +46,12 @@ export class DataServiceService {
     return this.http.get(`${environment.apiUrl}/highlights`)
   }
 
+  getCalenderData(date:string,symbol:string){
+    return this.http.post(`${environment.apiUrl}/get-calender-data`,{date:date,symbol:symbol},{
+      headers:{
+        "content-type": "application/json"
+      }
+    })
+  }
+
 }

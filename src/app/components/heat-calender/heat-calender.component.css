@@ -1,44 +1,70 @@
 .container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     gap: 5px;
+    justify-content: center;
+    align-items: center;
 }
 
-.values-holder {
-    width: 76px;
-    height: 76px;
+
+
+.date-container {
+    display: grid;
+    grid-template-columns: repeat(7, 80px);
+    justify-content: center;
+    align-items: center;
+}
+
+.days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 80px);
+    justify-content: center;
+    align-items: center;
+}
+
+.day {
+    font-weight: bold;
+}
+
+.months {
+    display: grid;
+    grid-template-columns: repeat(3, 50px);
+    color: white;
+    position: relative;
+    justify-content: center;
+    justify-items: center;
+    background-color: rgb(154, 181, 202);
     border-radius: 10px;
-    background-color: antiquewhite;
+    padding: 10px;
+}
+
+.months {
+    justify-self: center;
+    align-self: center;
+}
+
+.month:hover {
+    background-color: aliceblue;
+    color: black;
+}
+
+.months-header {
+    background-color: rgb(196, 195, 195);
+}
+
+.current-label {
+    background-color: rgba(196, 195, 195, 0.3);
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+}
+
+.main-container {
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    row-gap: 5px;
-}
-
-.date-holder {
-    font-family: 'Roboto', sans-serif;
-    font-size: small;
-    text-align: center;
-}
-
-.percent-holder {
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #13C610;
-    display: flex;
-    flex-flow: column;
     justify-content: center;
-    color: white;
-}
-
-.positive {
-    background-color: #13C610;
-}
-
-.negative {
-    background-color: #DE0000;
+    align-items: center;
 }

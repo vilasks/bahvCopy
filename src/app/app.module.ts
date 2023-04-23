@@ -13,6 +13,8 @@ import { BitesComponent } from './components/bites/bites.component';
 import { HighLowCardsComponent } from './components/high-low-cards/high-low-cards.component';
 import { HeatCalenderComponent } from './components/heat-calender/heat-calender.component'
 import { RouterModule } from '@angular/router';
+import { SearchComponent } from './components/search/search.component';
+import { CalenderItemComponent } from './components/calender-item/calender-item.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { RouterModule } from '@angular/router';
     ChartComponent,
     BitesComponent,
     HighLowCardsComponent,
-    HeatCalenderComponent
+    HeatCalenderComponent,
+    SearchComponent,
+    CalenderItemComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,9 @@
+<div>
+    <input [formControl]="searchBox" name="searchBox" type="search" class="form-control search-box"
+        placeholder="Search Stocks">
+    <div class="results">
+        <div class="symbol-container">
+            <app-sym-block *ngFor="let symbol of matchedStocks" [stock]="symbol"></app-sym-block>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,29 @@
 <div class="container">
-    <div *ngFor="let stock of data" class="values-holder">
-        <div class="date-holder">
-            {{stock.TIMESTAMP | date:"dd/MM/YY"}}
+    <div class="main-container">
+        <p (click)="showHideMonths()" class="current-label">{{date.value | date:'MMM , y'}}</p>
+        <div *ngIf="showMonths" class="months">
+            <div (click)="prevYear()" class="month" style="text-align: center;"> <strong>&lt;</strong> </div>
+            <div class="month">{{date.value | date:'yyyy'}}</div>
+            <div (click)="nextYear()" class="month" style="text-align: center;"> <strong>&gt;</strong> </div>
+            <div *ngFor="let month of months" (click)="setMonth(month)" class="month">
+                {{month | date:'MMM'}}
+            </div>
         </div>
-        <div [ngClass]="{'positive':stock.CHANGEPERCENT>0,'negative':stock.CHANGEPERCENT<0}" class="percent-holder">
-            <div class="num">{{stock.CHANGEPERCENT | number:'1.1-2'}}%</div>
-        </div>
+    </div>
+    <div class="days-header">
+        <div class="day">Sun</div>
+        <div class="day">Mon</div>
+        <div class="day">Tue</div>
+        <div class="day">Wed</div>
+        <div class="day">Thu</div>
+        <div class="day">Fri</div>
+        <div class="day">Sat</div>
+    </div>
+    <div class="date-container">
+        <ng-container *ngFor="let stock of data">
+            <app-calender-item
+                [ngStyle]="{'grid-column-start': getDate(stock.TIMESTAMP) == 1 ? getDay(stock.TIMESTAMP) : null}"
+                [data]="stock"></app-calender-item>
+        </ng-container>
     </div>
 </div>

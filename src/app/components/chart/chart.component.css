@@ -8,7 +8,12 @@
     flex-direction: row;
 }
 
-
+.top-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+}
 
 @media screen and (max-width:759px) {}
 

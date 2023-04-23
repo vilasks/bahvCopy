@@ -1,5 +1,12 @@
 <div class="chart-container">
-    <p>{{symbol}}</p>
+    <div class="top-actions">
+        <div class="action-container">
+            <button (click)="openCreateForm()" data-bs-target="#createAlert" data-bs-toggle="modal"
+                title="Create Price Alert" class=""><span class="material-symbols-outlined">
+                    add_alert
+                </span></button>
+        </div>
+    </div>
     <canvas id="chart"></canvas>
     <div class="chart-controls">
         <input aria-label="interval" type="range" (change)="changeIntervel(val.value)" #val class="form-range" min="0"
@@ -17,4 +24,47 @@
         </div>
     </div>
 
+</div>
+
+
+<div class="modal fade" tabindex="-1" id="createAlert">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create Price Alert</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div [formGroup]="createAlert" class="modal-body">
+                <label for="Stock Label" class="form-label">Stock Label</label>
+                <input [attr.disabled]="true" type="text" formControlName="symbol" class="form-control"
+                    title="stock symbol">
+                <!-- <label for="alert-type" class="form-label">Type</label>
+                <div class="form-inline">
+                    <label for="" class="form-label">EQOAB</label>
+                    <input type="radio" name="alerttype" value="EQOAB" id="EQOAB">
+                    <label for="" class="form-label ms-5">EQOBL</label>
+                    <input type="radio" name="alerttype" value="EQOBL" id="EQOBL">
+                </div> -->
+                <label for="price" class="form-label">Price</label>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">₹</span>
+                    <input formControlName="price" type="text" class="form-control" placeholder="Price"
+                        aria-label="Username" aria-describedby="addon-wrapping">
+                </div>
+                <p class="form-label"> <span class="form-label">Note: </span> Price will rounded off to 10 paise </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button [disabled]="submitInProgress || !createAlert.valid" class="btn btn-primary"
+                    (click)="submitCreateAlert()">
+                    <ng-container *ngIf="submitInProgress; else submitbtnplaceholder">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </ng-container>
+                    <ng-template #submitbtnplaceholder>
+                        Submit
+                    </ng-template>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
