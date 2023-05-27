@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input,ViewChild,Renderer2, ElementRef } from '@angular/core';
 import { FormControl, FormGroup,FormBuilder, Validators } from '@angular/forms';
 import {Chart,ChartType } from 'chart.js/auto'
 import { DataServiceService } from 'src/app/services/data-services/data-service.service';
@@ -12,17 +12,19 @@ import { AlertServiceService } from 'src/app/services/alert-service/alert-servic
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
+  @ViewChild("modal", {static: false}) modal!:ElementRef;
 
   constructor(
     private dataService:DataServiceService,
     private symbolService:SymbolsService,
     private formBuilder:FormBuilder,
-    private alertService:AlertServiceService
+    private alertService:AlertServiceService,
+    private render: Renderer2
     ) { }
   
   @Input() symbol!:string
-  data:Array<number> = [1,2,3,4,5,6,7]
-  label:Array<string> = ["a","b","c","d","e","f","g"]
+  data:Array<number> = []
+  label:Array<string> = []
   chart:any;
   staticLabel:string = "Static Label"
   options:any;
@@ -36,11 +38,15 @@ export class ChartComponent implements OnInit {
         validators: [Validators.required],
         asyncValidators: [],
         updateOn: 'blur'
-      })
+      }),
+      email: new FormControl('',[Validators.email,Validators.required])
     });
   submitInProgress:boolean = false;
+  mailInProgress:boolean = false;
+  mailSent = false;
+  otpProgress = false;
+  otpVerified = false;
   ngOnInit(): void {
-
     let crosshair:any;
     let crosshairLabel = {
       id: "crosshairLabel",
@@ -177,8 +183,10 @@ export class ChartComponent implements OnInit {
   getDate(symbol=this.symbol){
     this.dataService.getDate(symbol).subscribe(
       (data:any)=>{
-        this.data = data.data
-        this.updateChart(data)
+        if(data.data.length > 0){
+          this.data = data.data
+          this.updateChart(data)
+        }
       },
       (err:any)=>{
         console.log(err)
@@ -212,7 +220,6 @@ export class ChartComponent implements OnInit {
     let priceArr = data.data.map((e:any)=>{
       return e.CLOSE
     })
-
     let dates = data.data.map((e:any)=>{
       return this.formatDate(e.TIMESTAMP)
     })
@@ -258,9 +265,13 @@ export class ChartComponent implements OnInit {
     this.createAlert.patchValue(
       {
         symbol: this.symbol,
-        price: this.roundOffPrice(this.chart.data.datasets[0].data[this.chart.data.datasets[0].data.length - 1])
+        price: this.roundOffPrice(this.chart.data.datasets[0].data[this.chart.data.datasets[0].data.length - 1]),
+        email: '',
+        otp: ''
       }
     )
+    this.mailSent = false;
+    this.otpVerified = false;
   }
 
   submitCreateAlert(){
@@ -270,6 +281,7 @@ export class ChartComponent implements OnInit {
       (data:any)=>{
         if(data.status === 1){
           console.log("create success");
+          this.modal.nativeElement.click()
         }else{
           console.log("create failure")
         }
@@ -296,5 +308,57 @@ export class ChartComponent implements OnInit {
   setPrice(value:any){
     this.createAlert.patchValue({price: value})
   }
+
+  sendMail(){
+    this.mailInProgress = true
+    this.dataService.sendOtp(this.createAlert.get("email")?.value).subscribe(
+      (data:any)=>{
+        if(data.status == 1){
+          this.mailSent = true
+          this.createAlert.addControl("otp", new FormControl('',[Validators.required]))
+          this.createAlert.get("email")?.setErrors(null)
+        }else{
+          this.createAlert.get("email")?.setErrors({emailError: true})
+        }
+        this.mailInProgress = false;
+      },
+      (err)=>{
+        console.log(err)
+        this.mailInProgress = false;
+        this.createAlert.get("email")?.setErrors({emailError: true})
+      }
+    )
+    
+  }
+
+  verifyOTP(){
+    this.otpProgress = true
+    let data = {
+      email: this.createAlert.get("email")?.value,
+      otp: this.createAlert.get("otp")?.value
+    }
+    this.dataService.verifyOtp(data).subscribe(
+      (data:any) => {
+        if(data.status == 1){
+          this.otpVerified = true
+          this.createAlert.get("otp")?.setErrors(null)
+        }else{
+          this.createAlert.get("otp")?.setErrors({otpError: true})
+        }
+        this.otpProgress = false
+      },
+      (err)=>{
+        console.log(err)
+        this.otpProgress = false;
+        this.createAlert.get("otp")?.setErrors({otpError: true})
+      }
+    )
+  }
+
+  get f(){
+    return this.createAlert.controls
+  }
+
+
 
 }

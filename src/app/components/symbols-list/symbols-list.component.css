@@ -1,9 +1,4 @@
 .symbol-container {
     overflow-y: scroll;
     height: 100vh;
-    width: 16vw;
-}
-
-.search-container {
-    width: 16vw;
 }

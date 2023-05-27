@@ -52,10 +52,62 @@
                         aria-label="Username" aria-describedby="addon-wrapping">
                 </div>
                 <p class="form-label"> <span class="form-label">Note: </span> Price will rounded off to 10 paise </p>
+                <label for="email" class="form-label">Email</label>
+                <div class="input-group flex-nowrap">
+                    <input type="email" class="form-control" formControlName="email"
+                        placeholder="Enter Email to receive alerts">
+                    <span class="input-group-text btn btn-sm btn-primary" (click)="sendMail()"
+                        [ngClass]="{'disabled': !f['email'].valid || mailInProgress || mailSent, 'btn-success': mailSent}"
+                        id="addon-wrapping">
+                        <ng-container *ngIf="mailInProgress; else mailbtnplaceholder">
+                            <span class="disabled spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true"></span>
+                        </ng-container>
+                        <ng-template #mailbtnplaceholder>
+                            <ng-container *ngIf="mailSent">
+                                <i class="bi bi-check2"></i> Mail Sent
+                            </ng-container>
+                            <ng-container *ngIf="!mailSent">
+                                Verify Email
+                            </ng-container>
+                        </ng-template>
+                    </span>
+                </div>
+                <div class="text-danger"
+                    [ngClass]="{'visible': f['email'].errors?.['emailError'],'d-none': !f['email'].errors?.['emailError']}">
+                    Unable to send mail. Please check your mail id or try later.
+                </div>
+                <ng-container *ngIf="mailSent">
+                    <label for="otp" class="form-label">OTP</label>
+                    <div class="input-group flex-nowrap">
+                        <input type="text" class="form-control" formControlName="otp"
+                            placeholder="Enter OTP to verify Email">
+                        <span
+                            [ngClass]="{'disabled': !f['otp'].valid || otpProgress || otpVerified, 'btn-success': otpVerified}"
+                            class="input-group-text btn btn-sm btn-primary" (click)="verifyOTP()" id="addon-wrapping">
+                            <ng-container *ngIf="otpProgress; else otpPlaceholder">
+                                <span class="disabled spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span>
+                            </ng-container>
+                            <ng-template #otpPlaceholder>
+                                <ng-container *ngIf="otpVerified">
+                                    <i class="bi bi-check2"></i> OTP Verified
+                                </ng-container>
+                                <ng-container *ngIf="!otpVerified">
+                                    Verify OTP
+                                </ng-container>
+                            </ng-template>
+                        </span>
+                    </div>
+                    <div class="text-danger"
+                        [ngClass]="{'visible': f['otp'].errors?.['otpError'],'d-none': !f['otp'].errors?.['otpError']}">
+                        incorrect otp
+                    </div>
+                </ng-container>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button [disabled]="submitInProgress || !createAlert.valid" class="btn btn-primary"
+                <button type="button" class="btn btn-secondary" #modal data-bs-dismiss="modal">Close</button>
+                <button [disabled]="submitInProgress || !createAlert.valid || !otpVerified" class="btn btn-primary"
                     (click)="submitCreateAlert()">
                     <ng-container *ngIf="submitInProgress; else submitbtnplaceholder">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

@@ -13,6 +13,7 @@ export class SearchComponent implements OnInit {
   
   searchBox = new FormControl('',[Validators.pattern(/^[a-zA-Z0-9 ]*$/)])
   matchedStocks:Array<any> = []
+  suggestion = false;
 
   ngOnInit(): void {
     this.searchBox.valueChanges.subscribe(
@@ -36,6 +37,11 @@ export class SearchComponent implements OnInit {
         }).slice(0,10)
       }
     )
+  }
+
+  toggleResult(action:boolean){
+    this.searchBox.patchValue("");
+    this.suggestion = action;
   }
 
 }

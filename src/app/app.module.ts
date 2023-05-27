@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule} from '@angular/common/http'
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import { HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -15,6 +16,12 @@ import { HeatCalenderComponent } from './components/heat-calender/heat-calender.
 import { RouterModule } from '@angular/router';
 import { SearchComponent } from './components/search/search.component';
 import { CalenderItemComponent } from './components/calender-item/calender-item.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { SigninComponent } from './components/signin/signin.component';
+import Auth from './guards/auth.guard';
+import TokenInterceptor from './interceptors/token.interceptor';
+import { ToastrModule} from 'ngx-toastr';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +35,10 @@ import { CalenderItemComponent } from './components/calender-item/calender-item.
     HighLowCardsComponent,
     HeatCalenderComponent,
     SearchComponent,
-    CalenderItemComponent
+    CalenderItemComponent,
+    SignupComponent,
+    SigninComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -36,9 +46,11 @@ import { CalenderItemComponent } from './components/calender-item/calender-item.
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    BrowserAnimationsModule,
+    RouterModule,
+    ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [Auth,{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor,multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

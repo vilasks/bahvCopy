@@ -1,13 +1,15 @@
-<div class="nav-bar">
-    <h5 class="title">NSE Bhav<i class="bi bi-currency-rupee"></i></h5>
-    <app-search></app-search>
-    <i class="bi bi-person-circle"></i>
-</div>
 <main>
-    <div class="sidebar">
-        <app-symbols-list></app-symbols-list>
+    <div class="nav-bar">
+        <h5 class="title">NSE Bhav<i class="bi bi-currency-rupee"></i></h5>
+        <app-search></app-search>
+        <app-profile></app-profile>
     </div>
-    <div class="main">
-        <app-charting-block [stock]="symbol"></app-charting-block>
+    <div class="chart-block">
+        <div class="sidebar">
+            <app-symbols-list></app-symbols-list>
+        </div>
+        <div class="main">
+            <app-charting-block [stock]="symbol"></app-charting-block>
+        </div>
     </div>
 </main>

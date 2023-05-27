@@ -1,12 +1,19 @@
 main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
 }
 
 .main {
     overflow-y: scroll;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
+}
+
+.chart-block {
+    display: flex;
+    flex-direction: row;
 }
 
 .sidebar {
@@ -14,7 +21,11 @@ main {
 }
 
 .nav-bar {
-    display: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
 }
 
 /* small Mobile devices */
@@ -34,12 +45,7 @@ main {
         justify-content: center;
     }
 
-    .nav-bar {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-    }
+
 
 
 }

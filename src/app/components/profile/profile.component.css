@@ -1,0 +1,24 @@
+.actions-container {
+    position: absolute;
+    background-color: #d1d4f4;
+}
+
+.action-holder {
+    position: relative;
+}
+
+.action-holder div {
+    text-decoration: none;
+    padding: 5px 30px 5px 30px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+}
+
+.action-holder div:hover {
+    background-color: white;
+}
+
+i {
+    font-size: 20px;
+}

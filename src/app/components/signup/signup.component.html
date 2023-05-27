@@ -1,0 +1,111 @@
+<div class="main-container">
+
+    <div *ngIf="!showOtpForm && !showSuccess" class="card">
+        <div class="card-header">
+            <h1 class="card-title">Sign Up</h1>
+        </div>
+        <div class="card-body" [formGroup]="signup">
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input
+                    [ngClass]="{'is-invalid':!f.userName.valid && f.userName.touched,'is-vsalid':f.userName.valid && f.userName.touched  }"
+                    type="text" formControlName="userName" class="form-control" placeholder="Username">
+                <div [ngClass]="{'visible':f.userName.errors?.['required'],'d-none':!f.userName.errors?.['required']}"
+                    class="invalid-feedback">
+                    Enter Your User Name
+                </div>
+                <div [ngClass]="{'visible':f.userName.errors?.['pattern'],'d-none':!f.userName.errors?.['pattern']}"
+                    class="invalid-feedback">
+                    User Name can only contain (a-z) characters (0-9) characters (_) underscore
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="form-label">Email Id</label>
+                <input
+                    [ngClass]="{'is-invalid':!f.emailId.valid && f.emailId.touched,'is-vsalid':f.emailId.valid && f.emailId.touched  }"
+                    type="email" formControlName="emailId" class="form-control" placeholder="Email Address">
+                <div [ngClass]="{'visible':f.emailId.errors?.['required'],'d-none':!f.emailId.errors?.['required']}"
+                    class="invalid-feedback">
+                    Enter Your Email Address
+                </div>
+                <div [ngClass]="{'visible':f.emailId.errors?.['email'],'d-none':!f.emailId.errors?.['email']}"
+                    class="invalid-feedback">
+                    Enter a valid Email Address
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input
+                    [ngClass]="{'is-invalid':!f.password.valid && f.password.touched,'is-vsalid':f.password.valid && f.password.touched  }"
+                    type="password" class="form-control" formControlName="password" placeholder="Password">
+                <div [ngClass]="{'visible':f.password.errors?.['required'],'d-none':!f.password.errors?.['required']}"
+                    class="invalid-feedback">
+                    Enter Your Password
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password" class="form-label">Confirm Password</label>
+                <input
+                    [ngClass]="{'is-invalid':!f.confirm_password.valid && f.confirm_password.touched,'is-vsalid':f.confirm_password.valid && f.confirm_password.touched  }"
+                    type="password" class="form-control" formControlName="confirm_password" placeholder="Password">
+                <div [ngClass]="{'visible':f.confirm_password.errors?.['required'],'d-none':!f.confirm_password.errors?.['required']}"
+                    class="invalid-feedback">
+                    Enter Your Password
+                </div>
+                <div [ngClass]="{'visible':f.confirm_password.errors?.['same'],'d-none':!f.confirm_password.errors?.['same']}"
+                    class="invalid-feedback">
+                    Password and Confirm password Do not Match
+                </div>
+            </div>
+            <div class="float-end mt-2">
+                <button [attr.disabled]="inProgess?true:null" (click)="getOtp()" class="btn btn-primary">
+                    <ng-container *ngIf="inProgess">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </ng-container>
+                    <ng-container *ngIf="!inProgess">
+                        SignUp
+                    </ng-container>
+                </button>
+            </div>
+        </div>
+        <div class="card-footer">
+            <p class="text  ">Already have an account?
+                <a class="text-primary" routerLink="/signin">Signin here</a>
+            </p>
+        </div>
+    </div>
+
+    <div *ngIf="showOtpForm" class="card">
+        <div class="card-header">
+            <h2 class="card-title">Verify OTP</h2>
+        </div>
+        <div class="card-body" [formGroup]="verifyOtp">
+            <div class="form-group">
+                <label for="otp" class="form-label">OTP</label>
+                <input formControlName="otp" type="text" class="form-control" placeholder="Enter the OTP">
+            </div>
+            <div class="float-end mt-2">
+                <button [attr.disabled]="otpProgress?true:null" class="btn btn-primary" (click)="VerifyOtp()">
+                    <ng-container *ngIf="otpProgress">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </ng-container>
+                    <ng-container *ngIf="!otpProgress">
+                        Verify OTP
+                    </ng-container>
+                </button>
+            </div>
+        </div>
+        <div class="card-footer">
+            <p class="text">Enter the otp you received on {{f.emailId.value}}</p>
+        </div>
+    </div>
+
+
+    <div *ngIf="showSuccess" class="card">
+        <div class="card-body">
+            <p class="text">Account Create Successfully.</p>
+            <a class="text-primary" routerLink="/signin">Signin here</a>
+        </div>
+    </div>
+
+</div>

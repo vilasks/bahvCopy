@@ -54,4 +54,20 @@ export class DataServiceService {
     })
   }
 
+  sendOtp(mail:string){
+    return this.http.post(`${environment.apiUrl}/send-otp`,{ email: mail},{
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+  }
+
+  verifyOtp(data:any){
+    return this.http.post(`${environment.apiUrl}/verify-otp`,data,{
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+  }
+
 }
