@@ -70,4 +70,45 @@ export class DataServiceService {
     })
   }
 
+  getUserAlerts(){
+    return this.http.get(`${environment.apiUrl}/list-alerts`,{
+      headers: {
+        'content-type': "application/json"
+      }
+    })
+  }
+
+  getUserDetails(){
+    return this.http.get(`${environment.apiUrl}/user-details`, {
+      headers: {
+        'content-type': "application/json"
+      }
+    })
+  }
+
+  updatePreference(action:string){
+    return this.http.post(`${environment.apiUrl}/update-preference`,{action: action}, {
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+  }
+
+
+  deletePriceAlert(_id:string){
+    return this.http.post(`${environment.apiUrl}/delete-price-alert`, {_id:_id},{
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+  }
+
+  deleteAccount(){
+    return this.http.delete(`${environment.apiUrl}/delete-account`,{
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+  }
+
 }

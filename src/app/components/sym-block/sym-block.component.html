@@ -1,7 +1,13 @@
-<div routerLinkActive="bg-primary" class="container">
-    <p class="symbol title">{{stock.SYMBOL}}</p>
+<div id="symbol" routerLinkActive="bg-primary" class="container">
+    <p id="sym" class="symbol title">{{stock.SYMBOL}}</p>
     <div class="icons">
-        <button (click)="changeStock()" routerLink="/{{stock.SYMBOL}}" class="btn btn-sm btn-outline-primary"><i
+        <button (click)="changeStock()" routerLink="/stock/{{stock.SYMBOL}}" class="btn btn-sm btn-outline-primary"><i
                 class="bi bi-box-arrow-up-right"></i></button>
+        <button *ngIf="type == 'search'"  (click)="addToWatchList(stock.SYMBOL)" title="add to watch list" class="btn btn-sm btn-outline-warning mx-2">
+            <i class="bi bi-plus"></i>
+        </button>
+        <button *ngIf="type !== 'search'"  (click)="removeFromWatchList(stock.SYMBOL)" title="remove from watchlist" class="btn btn-sm btn-outline-danger mx-2">
+            <i class="bi bi-x"></i>
+        </button>
     </div>
 </div>

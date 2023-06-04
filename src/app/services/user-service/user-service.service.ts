@@ -43,4 +43,14 @@ export class UserServiceService {
     })
   }
 
+  userNameAvailablity(userName:string){
+    return this.http.post( `${this.url}/is-userName-available`,{userName: userName},{
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+  }
+
+  
+
 }

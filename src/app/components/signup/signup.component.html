@@ -8,8 +8,11 @@
             <div class="form-group">
                 <label for="username" class="form-label">Username</label>
                 <input
-                    [ngClass]="{'is-invalid':!f.userName.valid && f.userName.touched,'is-vsalid':f.userName.valid && f.userName.touched  }"
+                    [ngClass]="{'is-invalid':!f.userName.valid && f.userName.touched,'is-valid':f.userName.valid && f.userName.touched  }"
                     type="text" formControlName="userName" class="form-control" placeholder="Username">
+                <div class="valid-feedback">
+                    username available
+                </div>
                 <div [ngClass]="{'visible':f.userName.errors?.['required'],'d-none':!f.userName.errors?.['required']}"
                     class="invalid-feedback">
                     Enter Your User Name
@@ -17,6 +20,10 @@
                 <div [ngClass]="{'visible':f.userName.errors?.['pattern'],'d-none':!f.userName.errors?.['pattern']}"
                     class="invalid-feedback">
                     User Name can only contain (a-z) characters (0-9) characters (_) underscore
+                </div>
+                <div [ngClass]="{'visible':f.userName.errors?.['available'],'d-none':!f.userName.errors?.['available']}"
+                    class="invalid-feedback">
+                    This UserName is Taken. Please use a different name
                 </div>
             </div>
             <div class="form-group">
@@ -82,7 +89,15 @@
         <div class="card-body" [formGroup]="verifyOtp">
             <div class="form-group">
                 <label for="otp" class="form-label">OTP</label>
-                <input formControlName="otp" type="text" class="form-control" placeholder="Enter the OTP">
+                <input [ngClass]="{'is-invalid':verifyOtp.invalid && verifyOtp.controls.otp.touched,'is-valid':verifyOtp.valid && verifyOtp.controls.otp.touched}" formControlName="otp" type="text" class="form-control" placeholder="Enter the OTP">
+                <div [ngClass]="{'visible': verifyOtp.controls.otp.errors?.['required'],'d-none': !verifyOtp.controls.otp.errors?.['required']}" class="invalid-feedback">
+                    Enter your OTP
+                </div>
+
+            </div>
+            <div class="form-inline">
+                <input formControlName="newsletter" type="checkbox" >
+                <label for="news-letter" class="form-lable">Receive daily market activity report</label>
             </div>
             <div class="float-end mt-2">
                 <button [attr.disabled]="otpProgress?true:null" class="btn btn-primary" (click)="VerifyOtp()">

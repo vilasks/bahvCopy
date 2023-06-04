@@ -48,11 +48,20 @@
                 <label for="price" class="form-label">Price</label>
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">₹</span>
-                    <input formControlName="price" type="text" class="form-control" placeholder="Price"
-                        aria-label="Username" aria-describedby="addon-wrapping">
+                    <input [ngClass]="{'is-invalid': f['price'].invalid && f['price'].touched}" formControlName="price"
+                        type="text" class="form-control" placeholder="Price" aria-label="Username"
+                        aria-describedby="addon-wrapping">
+                </div>
+                <div class="text-danger"
+                    [ngClass]="{'visible': f['price'].errors?.['required'] && f['price'].touched , 'd-none': !f['price'].errors?.['required']}">
+                    Please Enter the Price to which you want to receive alert
+                </div>
+                <div class="text-danger"
+                    [ngClass]="{'visible': f['price'].errors?.['min'] && f['price'].touched, 'd-none': !f['price'].errors?.['min']}">
+                    Please Enter Price Above Zero
                 </div>
                 <p class="form-label"> <span class="form-label">Note: </span> Price will rounded off to 10 paise </p>
-                <label for="email" class="form-label">Email</label>
+                <!-- <label for="email" class="form-label">Email</label>
                 <div class="input-group flex-nowrap">
                     <input type="email" class="form-control" formControlName="email"
                         placeholder="Enter Email to receive alerts">
@@ -103,11 +112,11 @@
                         [ngClass]="{'visible': f['otp'].errors?.['otpError'],'d-none': !f['otp'].errors?.['otpError']}">
                         incorrect otp
                     </div>
-                </ng-container>
+                </ng-container> -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" #modal data-bs-dismiss="modal">Close</button>
-                <button [disabled]="submitInProgress || !createAlert.valid || !otpVerified" class="btn btn-primary"
+                <button [disabled]="submitInProgress || !createAlert.valid" class="btn btn-primary"
                     (click)="submitCreateAlert()">
                     <ng-container *ngIf="submitInProgress; else submitbtnplaceholder">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

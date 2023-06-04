@@ -1,0 +1,50 @@
+<app-nav-bar></app-nav-bar>
+<div class="container">
+    <div class="left-side-bar">
+        <div (click)="setCurrentItem('personal-info')" [ngClass]="{'bg-primary': currentItem == 'personal-info'}" class="nav-item">Personal Info</div>
+        <div (click)="setCurrentItem('email-settings')" [ngClass]="{'bg-primary': currentItem == 'email-settings'}" class="nav-item">Email Settings</div>
+        <div (click)="setCurrentItem('price-alerts')" [ngClass]="{'bg-primary': currentItem == 'price-alerts'}" class="nav-item">Price Alerts</div>
+    </div>
+    <div class="right-side-bar">
+        <div *ngIf="currentItem == 'personal-info'" class="personal-info">
+            <div class="form-group">
+                <label for="email" class="form-label">Email : </label>
+                <input type="text" value={{userDetails?.EMAILID}} class="form-control" disabled readonly>
+            </div>
+            <div class="form-group my-3">
+                <label for="userName" class="form-label">UserName : </label>
+                <input type="text" value={{userDetails?.USERNAME}} class="form-control" disabled readonly>
+            </div>
+            <button (click)="deleteAccount()" class="btn btn-danger">
+                Delete Account
+            </button>
+        </div>
+        <div *ngIf="currentItem == 'email-settings'" class="email-settings">
+            <div class="form-inline">
+                <input name="newsletter" (click)="setPreference()" [formControl]="newsletter" type="checkbox">
+                <label for="newsletter"  class="form-label mx-3">Receive daily market activity Email</label>
+            </div>
+        </div>
+        <div *ngIf="currentItem == 'price-alerts'" class="price-alerts">
+            <ng-container *ngIf="!alertError">
+                <div class="alerts-container">
+                    <div *ngFor="let alert of alertsList" class="alert">
+                        <p class="symbol">{{alert.SYMBOL}}</p>
+                        <p class="price">{{alert.PRICE}}</p>
+                        <p class="timestamp">{{alert.TIMESTAMP | date:'dd-MM-yyyy'}}</p>
+                        <button (click)="deletePriceAlert(alert._id)" *ngIf="(!alert?.COMPLETED && !alert?.DELETED)" class="btn btn-danger" >Delete</button>
+                        <p *ngIf="alert?.COMPLETED" class="text-secondary">COMPLETED</p>
+                        <p *ngIf="alert?.DELETED" class="text-secondary">DELETED</p>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="alertError">
+                <p class="text-danger">Error while fetching list. please retry</p>
+                <button (click)="listAlerts()" class="btn btn-danger btn-sm">Retry</button>
+            </ng-container>
+            <ng-container *ngIf="noAlerts">
+                <p class="text-seconday">You haven't created any alerts</p>
+            </ng-container>
+        </div>
+    </div>
+</div>

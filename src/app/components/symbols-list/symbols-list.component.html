@@ -5,4 +5,7 @@
     <div *ngFor="let symbol of symbols">
         <app-sym-block [stock]="symbol"></app-sym-block>
     </div>
+    <div class="no-symbols" *ngIf="!(symbols?.length > 0)">
+        <p class="text-secondary">You don't have any stocks in your watchlist</p>
+    </div>
 </div>

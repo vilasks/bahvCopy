@@ -18,18 +18,13 @@ main {
 
 .sidebar {
     border-right: solid 2px black;
+    min-width: 20vw;
 }
 
-.nav-bar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
 
-}
 
 /* small Mobile devices */
-@media screen and (max-width:759px) {
+@media screen and (max-width:900px) {
     .sidebar {
         display: none;
     }

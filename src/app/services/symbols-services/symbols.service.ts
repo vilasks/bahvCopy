@@ -25,4 +25,29 @@ export class SymbolsService{
       }
     )
   }
+
+  searchSymbols(query=""){
+    return this.http.get(`${environment.apiUrl}/get-symbols?q=${query}`,{
+      headers:{
+        "content-type": "application/json"
+      }
+    })
+  }
+
+  addToWatchList(stock:string){
+    return this.http.post(`${environment.apiUrl}/add-to-watchlist`,{symbol:stock},{
+      headers: {
+        'content-type': "application/json"
+      }
+    })
+  }
+
+  removeFromWatchlist(stock:string){
+    return this.http.patch(`${environment.apiUrl}/remove-from-watchlist`,{symbol: stock},{
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+  }
+
 }

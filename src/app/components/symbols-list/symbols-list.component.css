@@ -2,3 +2,9 @@
     overflow-y: scroll;
     height: 100vh;
 }
+
+.no-symbols{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}

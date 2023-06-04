@@ -1,9 +1,9 @@
 <div class="main">
-    <input (focus)="toggleResult(true)" [formControl]="searchBox" name="searchBox" type="search"
+    <input id="search" (focus)="toggleResult(true)" [formControl]="searchBox" name="searchBox" type="search"
         class="form-control search-box" placeholder="Search Stocks">
-    <div *ngIf="suggestion" class="results">
+    <div id="results" *ngIf="suggestion" class="results">
         <div class="symbol-container">
-            <app-sym-block (toggleSuggestions)="toggleResult($event)" *ngFor="let symbol of matchedStocks"
+            <app-sym-block [type]="'search'" (toggleSuggestions)="toggleResult($event)" *ngFor="let symbol of matchedStocks"
                 [stock]="symbol"></app-sym-block>
         </div>
     </div>

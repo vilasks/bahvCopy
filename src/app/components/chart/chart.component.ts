@@ -6,6 +6,7 @@ import { SymbolsService } from 'src/app/services/symbols-services/symbols.servic
 import { min,max} from 'lodash'
 import zoomPlugin  from 'chartjs-plugin-zoom';
 import { AlertServiceService } from 'src/app/services/alert-service/alert-service.service';
+import { ToastrService } from 'ngx-toastr'
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
@@ -19,7 +20,8 @@ export class ChartComponent implements OnInit {
     private symbolService:SymbolsService,
     private formBuilder:FormBuilder,
     private alertService:AlertServiceService,
-    private render: Renderer2
+    private render: Renderer2,
+    private toastr:ToastrService
     ) { }
   
   @Input() symbol!:string
@@ -35,11 +37,11 @@ export class ChartComponent implements OnInit {
   createAlert:FormGroup = this.formBuilder.group({
       symbol: new FormControl('',[Validators.required]),
       price: new FormControl('',{
-        validators: [Validators.required],
+        validators: [Validators.required,Validators.min(0.01)],
         asyncValidators: [],
         updateOn: 'blur'
       }),
-      email: new FormControl('',[Validators.email,Validators.required])
+      // email: new FormControl('',[Validators.email,Validators.required])
     });
   submitInProgress:boolean = false;
   mailInProgress:boolean = false;
@@ -280,17 +282,16 @@ export class ChartComponent implements OnInit {
     this.alertService.createAlert(this.createAlert.value).subscribe(
       (data:any)=>{
         if(data.status === 1){
-          console.log("create success");
+          this.toastr.success(data.msg || "alert created successfully", "Success")
           this.modal.nativeElement.click()
         }else{
-          console.log("create failure")
+          this.toastr.error(data.msg || "unable to create alert currently. please try after sometime", "Error")
         }
         this.submitInProgress = false;
       },
       (err)=>{
         this.submitInProgress = false;
-        console.log(err)
-        console.log("create failure")
+        this.toastr.error(err.error.msg || "unable to create alert currently. please try after sometime", "Error")
       }
     )
   }

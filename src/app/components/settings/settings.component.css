@@ -1,0 +1,38 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.left-side-bar{
+    width: 20vw;
+    height: 100vh;
+    overflow-y: scroll;
+    border: 2px solid rgb(168, 168, 180);
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+}
+
+.left-side-bar::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+}   
+
+.right-side-bar{
+    width: 80vw;
+}
+
+.nav-item{
+    padding: 5px;
+    border: 2px solid rgb(126, 124, 140);
+    border-radius: 2px;
+}
+
+.alert{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+}

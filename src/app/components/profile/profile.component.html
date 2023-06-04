@@ -1,12 +1,12 @@
 <div class="main">
     <div class="icon">
-        <button (click)="toggleVisiblity()" class="btn btn.sm btn-secondary-outline"><i
-                class="bi bi-person-circle"></i></button>
+        <button (click)="toggleVisiblity()" id="profile-btn" class="btn btn.sm btn-secondary-outline"><i
+                id="profile-btn" class="bi bi-person-circle"></i></button>
     </div>
     <div *ngIf="visible" class="actions-container">
         <div class="action-holder">
-            <div>Profile</div>
-            <div><i class="bi bi-gear"></i> Settings </div>
+            <!-- <div routerLink="/profile">Profile</div> -->
+            <div routerLink="/settings"><i class="bi bi-gear"></i> Settings </div>
             <div (click)="logout()"><i class="bi bi-box-arrow-right"></i> Logout </div>
         </div>
     </div>

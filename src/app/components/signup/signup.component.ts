@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators,ValidatorFn,AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormControl, Validators,ValidatorFn,AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
 import { UserServiceService } from 'src/app/services/user-service/user-service.service';
 import { ToastrService } from 'ngx-toastr'
+import { Observable, catchError, debounce, debounceTime, interval, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -17,16 +18,23 @@ export class SignupComponent implements OnInit {
   showOtpForm = false;
   showSuccess = false;
   password:string = '';
-
+  forDebounce:Observable<ValidationErrors|null> = new Observable();
   signup = this.formBuilder.group({
-    userName: new FormControl('', [Validators.required, Validators.pattern(/[a-zA-Z0-9_]$/)]),
+    userName: new FormControl('', 
+      {
+        validators: [Validators.required, Validators.pattern(/[a-zA-Z0-9_]$/)],
+        asyncValidators: [validateUserName(this.userService)],
+        updateOn: "change"
+      },
+    ),
     emailId: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
     confirm_password: new FormControl('', [Validators.required,this.validateConfirmPassword(this.password)])
   })
 
   verifyOtp = this.formBuilder.group({
-    otp: new FormControl('', [Validators.required])
+    otp: new FormControl('', [Validators.required]),
+    newsletter: new FormControl(true)
   })
 
   ngOnInit(): void {
@@ -110,6 +118,8 @@ export class SignupComponent implements OnInit {
           this.otpProgress = false
         }
       )
+    }else{
+      this.verifyOtp.markAllAsTouched()
     }
   }
 
@@ -122,4 +132,23 @@ export class SignupComponent implements OnInit {
     }
   }
 
+}
+
+function validateUserName(userService:UserServiceService,): AsyncValidatorFn{
+  return (control:AbstractControl):Observable<ValidationErrors|null> => {
+    if(control.value){
+      return userService.userNameAvailablity(control.value).pipe(
+        map((data:any)=>{
+          if(data.status === 1 && data.available){
+            return null
+          }
+          return  {available: true}
+        }),
+        catchError((err:any)=>{
+          return of({available: true})
+        })
+      )
+    }
+    return of({available:true})
+  }
 }

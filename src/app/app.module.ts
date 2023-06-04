@@ -22,6 +22,9 @@ import Auth from './guards/auth.guard';
 import TokenInterceptor from './interceptors/token.interceptor';
 import { ToastrModule} from 'ngx-toastr';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileDetailsComponent } from './components/profile-details/profile-details.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import { ProfileComponent } from './components/profile/profile.component';
     CalenderItemComponent,
     SignupComponent,
     SigninComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProfileDetailsComponent,
+    SettingsComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,

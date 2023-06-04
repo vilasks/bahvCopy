@@ -12,7 +12,10 @@ class Auth implements CanActivate{
         let cookie = document.cookie.split(";")
         for(let i=0; i<cookie.length; i++){
             if(cookie[i].includes("token")){
-                return true
+                let value = cookie[i].split("=")
+                if(value[1].trim().length > 1){
+                    return true
+                }
             }
         }
         this.router.navigateByUrl("/signin")

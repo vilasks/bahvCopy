@@ -5,12 +5,17 @@ import { SymbolsListComponent } from './components/symbols-list/symbols-list.com
 import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 import Auth from './guards/auth.guard';
+import { ProfileComponent } from './components/profile/profile.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { ProfileDetailsComponent } from './components/profile-details/profile-details.component';
 
 const routes: Routes = [
-  {path: "signup",  component: SignupComponent},
+  {path:"", canActivate: [Auth], component:HomeComponent},
+  {path: "signup",   component: SignupComponent},
   {path: "signin", component: SigninComponent},
-  {path:":data", canActivate: [Auth], component:HomeComponent},
-  {path:"", canActivate: [Auth], component:HomeComponent}
+  {path: "profile", canActivate: [Auth], component: ProfileDetailsComponent},
+  {path: "settings", canActivate: [Auth], component: SettingsComponent},
+  {path:"stock/:data", canActivate: [Auth], component:HomeComponent},
 ];
 
 @NgModule({

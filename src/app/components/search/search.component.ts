@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { SymbolsService } from 'src/app/services/symbols-services/symbols.service';
-
+import { DOCUMENT } from '@angular/common'
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -9,17 +10,40 @@ import { SymbolsService } from 'src/app/services/symbols-services/symbols.servic
 })
 export class SearchComponent implements OnInit {
 
-  constructor(private symbolService:SymbolsService) { }
+  constructor(
+    private symbolService:SymbolsService,
+    @Inject(DOCUMENT) private document:Document,
+    private toastr:ToastrService
+    ) { }
   
   searchBox = new FormControl('',[Validators.pattern(/^[a-zA-Z0-9 ]*$/)])
   matchedStocks:Array<any> = []
   suggestion = false;
+  debounceSearch:any = null;
 
   ngOnInit(): void {
+
+    this.document.addEventListener("click",(e)=>{
+      if(this.document.getElementById("results")?.contains((e.target)as Node) || (e.target as any).id === "search"){
+        
+      }else{
+        this.suggestion = false
+      }
+    })
+
     this.searchBox.valueChanges.subscribe(
       (data:string|null)=>{
         if(typeof data === "string"){
-          this.handleSearch(data)
+          if(this.debounceSearch){
+            clearTimeout(this.debounceSearch)
+            this.debounceSearch = setTimeout(()=>{
+              this.handleSearch(data)
+            },500)
+          }else{
+            this.debounceSearch = setTimeout(()=>{
+              this.handleSearch(data)
+            },500)
+          }
         }
 
         if(!data){
@@ -27,14 +51,20 @@ export class SearchComponent implements OnInit {
         }
       }
     )
+
   }
 
   handleSearch(str:string){
-    this.symbolService.Symbols.subscribe(
+    this.symbolService.searchSymbols(str).subscribe(
       (data:any)=>{
-        this.matchedStocks = data.filter((ele:any)=>{
-          return new RegExp(`^\\b${str}`,"i").test(ele.SYMBOL) || new RegExp(`^\\b${str}`,"i").test(ele.NAME_OF_COMPANY)
-        }).slice(0,10)
+        if(data.status === 1){
+          this.matchedStocks = data.data
+        }else{
+          this.toastr.error(data.msg,"Error")
+        }
+      },
+      (err)=>{
+        this.toastr.error(err.error.msg,"Error")
       }
     )
   }
@@ -43,5 +73,7 @@ export class SearchComponent implements OnInit {
     this.searchBox.patchValue("");
     this.suggestion = action;
   }
+
+
 
 }

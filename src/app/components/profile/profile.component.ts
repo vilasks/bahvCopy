@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router} from '@angular/router'
+import { DOCUMENT } from '@angular/common'
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -8,8 +9,18 @@ import { Router} from '@angular/router'
 export class ProfileComponent implements OnInit {
 
   visible = false;
-  constructor(private router:Router) { }
+  constructor(
+    private router:Router,
+    @Inject(DOCUMENT) private document:Document
+    ) { }
   ngOnInit(): void {
+    this.document.addEventListener("click",(e)=>{
+      if((e.target as any).id !== null){
+        if((e?.target as any).id !== "profile-btn"){
+          this.visible = false
+        }
+      }
+    })
   }
 
   toggleVisiblity(){
@@ -22,7 +33,7 @@ export class ProfileComponent implements OnInit {
       return
     }
     document.cookie = "token=''"
-    this.router.navigateByUrl("/login")
+    this.router.navigateByUrl("/signin")
   }
 
 }
