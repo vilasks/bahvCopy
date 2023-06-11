@@ -1,3 +1,6 @@
+
+
+
 .values-holder {
     width: 76px;
     height: 76px;
@@ -50,3 +53,40 @@
 .no-data {
     background-color: rgba(196, 195, 195, 0.3);
 }
+
+
+
+/* small Mobile devices */
+@media screen and (max-width:900px) {
+    
+    .values-holder{
+        width: 50px;
+        height: 50px;
+    }
+
+    .no-values-holder{
+        width: 50px;
+        height: 50px;
+    }
+
+    .percent-holder{
+        width: 30px;
+        height: 30px;
+    }
+
+    .date-holder{
+        font-size: 8px;
+    }
+
+    .percent-holder{
+        font-size: 10px;
+    }
+
+}
+
+
+
+/* regular mobile devices */
+@media screen and (max-width:1023px) {}
+
+@media screen and (max-width:1199px) {}

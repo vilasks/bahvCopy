@@ -11,11 +11,12 @@
 .icons {
     text-anchor: end;
     display: flex;
+    visibility: hidden;
     justify-content: end;
     align-content: center;
     align-items: center;
 }
 
-/* .container:hover  .icons{
-    display: flex;
-} */
+.container:hover  .icons{
+    visibility: visible;
+}

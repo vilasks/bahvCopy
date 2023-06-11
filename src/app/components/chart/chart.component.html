@@ -1,4 +1,4 @@
-<div class="chart-container">
+<div class="act-chart-container">
     <div class="top-actions">
         <div class="action-container">
             <button (click)="openCreateForm()" data-bs-target="#createAlert" data-bs-toggle="modal"
@@ -7,7 +7,7 @@
                 </span></button>
         </div>
     </div>
-    <canvas id="chart"></canvas>
+    <canvas #chart id="chart"></canvas>
     <div class="chart-controls">
         <input aria-label="interval" type="range" (change)="changeIntervel(val.value)" #val class="form-range" min="0"
             max="2000" id="customRange2">

@@ -8,6 +8,18 @@
     height: 55px;
     background-color: antiquewhite;
     border-radius: 13px;
+    box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
+    transition: box-shadow 400ms ease-in-out;
+}
+
+.timeframe{
+    font-weight: normal;
+    font-size: 10px;
+}
+
+.main-div:hover{
+    box-shadow: 0px 3px 2px 0px rgba(0,0,0,0.3);
+    
 }
 
 .title-div {
@@ -56,9 +68,54 @@ p {
     margin-top: 2%;
 }
 
-@media screen and (max-width:759px) {}
+
+.skeleton{
+    animation: skeleton-loading 1s linear infinite alternate
+}
+
+@keyframes skeleton-loading {
+    0%{
+        background-color: hsl(200, 20%, 70%);
+    }
+
+    100%{
+        background-color: hsl(200, 20%, 95%);
+    }
+}
+
+
+@media screen and (max-width:759px) {
+    .main-div{
+        width: 90px;
+    }
+
+    .label-title{
+        font-size: small;
+    }
+
+    
+}
 
 /* regular mobile devices */
-@media screen and (max-width:1023px) {}
+@media screen and (max-width:1023px) {
+    .main-div{
+        width: 150px;
+    }
 
-@media screen and (max-width:1199px) {}
+    .indexs-div{
+        justify-content: center;
+    }
+
+    .title{
+        text-align: center;
+        margin-top: 5px;
+        
+    }
+
+    
+
+}
+
+@media screen and (max-width:1199px) {
+    
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit,Input,ViewChild,Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit,Input,ViewChild,Renderer2, ElementRef,AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup,FormBuilder, Validators } from '@angular/forms';
 import {Chart,ChartType } from 'chart.js/auto'
 import { DataServiceService } from 'src/app/services/data-services/data-service.service';
@@ -14,21 +14,21 @@ import { ToastrService } from 'ngx-toastr'
 })
 export class ChartComponent implements OnInit {
   @ViewChild("modal", {static: false}) modal!:ElementRef;
-
+  @ViewChild("chart", {static: false}) chartRef!:ElementRef;
   constructor(
     private dataService:DataServiceService,
     private symbolService:SymbolsService,
     private formBuilder:FormBuilder,
     private alertService:AlertServiceService,
     private render: Renderer2,
-    private toastr:ToastrService
+    private toastr:ToastrService,
     ) { }
   
   @Input() symbol!:string
   data:Array<number> = []
   label:Array<string> = []
   chart:any;
-  staticLabel:string = "Static Label"
+  staticLabel:string = "Rs"
   options:any;
   type:ChartType = "line"
   currentInterval:number = 7;
@@ -141,6 +141,9 @@ export class ChartComponent implements OnInit {
             mode: "index",
           },
 
+          responsive: true,
+          maintainAspectRatio: true,
+
           layout:{
             padding: 10
           },
@@ -156,6 +159,11 @@ export class ChartComponent implements OnInit {
             x:{
               grid:{
                 lineWidth: 0.1
+              },
+              ticks:{
+                padding: 0,
+                autoSkip: true,
+                maxTicksLimit: 10
               }
             },
             
@@ -180,6 +188,12 @@ export class ChartComponent implements OnInit {
       }
     )
 
+  }
+
+  ngAfterViewInit(){
+    window.addEventListener("beforeprint",(e)=>{
+      console.log("before print")
+    })
   }
   
   getDate(symbol=this.symbol){
@@ -261,6 +275,7 @@ export class ChartComponent implements OnInit {
     date[1] = tmp
     date[2] = date[2].substr(-2)
     return date.join("/")
+    // new Date().toUTCString().split(",")[1].split(" ")[2] + " "+new Date().toUTCString().split(",")[1].split(" ")[3]
   }
 
   openCreateForm(){

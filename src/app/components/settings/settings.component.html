@@ -28,14 +28,38 @@
         <div *ngIf="currentItem == 'price-alerts'" class="price-alerts">
             <ng-container *ngIf="!alertError">
                 <div class="alerts-container">
-                    <div *ngFor="let alert of alertsList" class="alert">
+
+                    <table class="table table-stripped-columns">
+                        <thead>
+                            <tr>
+                                <th>SYMBOL</th>
+                                <th>PRICE</th>
+                                <th>DATE</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr  *ngFor="let alert of alertsList">
+                                <td class="symbol">{{alert.SYMBOL}}</td>
+                                <td class="price">{{alert.PRICE}}</td>
+                                <td class="timestamp">{{alert.TIMESTAMP | date:'dd-MM-yyyy H:mm'}}</td>
+                                <td>
+                                    <button (click)="deletePriceAlert(alert._id)" *ngIf="(!alert?.COMPLETED && !alert?.DELETED)" class="btn btn-danger" >Delete</button>
+                                    <p *ngIf="alert?.COMPLETED" class="text-secondary">COMPLETED</p>
+                                    <p *ngIf="alert?.DELETED" class="text-secondary">DELETED</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- <div *ngFor="let alert of alertsList" class="alert">
                         <p class="symbol">{{alert.SYMBOL}}</p>
                         <p class="price">{{alert.PRICE}}</p>
                         <p class="timestamp">{{alert.TIMESTAMP | date:'dd-MM-yyyy'}}</p>
                         <button (click)="deletePriceAlert(alert._id)" *ngIf="(!alert?.COMPLETED && !alert?.DELETED)" class="btn btn-danger" >Delete</button>
                         <p *ngIf="alert?.COMPLETED" class="text-secondary">COMPLETED</p>
                         <p *ngIf="alert?.DELETED" class="text-secondary">DELETED</p>
-                    </div>
+                    </div> -->
                 </div>
             </ng-container>
             <ng-container *ngIf="alertError">

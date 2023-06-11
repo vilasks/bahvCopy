@@ -1,6 +1,7 @@
 .actions-container {
     position: absolute;
     background-color: #d1d4f4;
+    z-index: 999;
 }
 
 .action-holder {
@@ -22,3 +23,20 @@
 i {
     font-size: 20px;
 }
+
+
+@media screen and (max-width:759px) {
+    
+    .actions-container{
+        right: 5%;
+    }    
+
+
+}
+
+
+
+/* regular mobile devices */
+@media screen and (max-width:1023px) {}
+
+@media screen and (max-width:1199px) {}

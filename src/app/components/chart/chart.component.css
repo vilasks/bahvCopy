@@ -15,7 +15,9 @@
     gap: 10px;
 }
 
-@media screen and (max-width:759px) {}
+@media screen and (max-width:759px) {
+    
+}
 
 /* regular mobile devices */
 @media screen and (max-width:1023px) {}

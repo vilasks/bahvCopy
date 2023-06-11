@@ -7,7 +7,7 @@
     max-height: 70vh;
     position: absolute;
     background-color: whitesmoke;
-    box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.43);
+    /* box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.43); */
     overflow-y: scroll;
     -ms-overflow-style: none;
     /* Internet Explorer 10+ */
@@ -28,8 +28,8 @@
 
 }
 
-.search-box {
+/* .search-box {
     box-shadow: 0px 6px 2px -3px rgba(0, 0, 0, 0.25);
-}
+} */
 
 @media screen and (max-width:900px) {}

@@ -1,73 +1,102 @@
 <div class="chart-container">
     <ng-container *ngIf="!stock">
         <div class="">
-            <h3 class="title">Index Performance</h3>
+            
+            <h3 class="title">Index Performance <sub class="timeframe">{{data?.TIMEFRAME}}</sub></h3>
+            
             <div class="indexs-div">
-                <ng-container *ngFor="let index of indexes_data">
-                    <div class="main-div">
-                        <div class="title-div">
-                            <p class="label-title">{{index.INDEX}}</p>
-                        </div>
-                        <div class="numbers-div">
-                            <div class="closing-number"
-                                [ngClass]="{'positive':index.CHANGE>0,'negative':index.CHANGE<0}">
-                                <p class="label-title-2">
-                                    {{index.CLOSE}}
-                                </p>
-                                <p class="label-title-3">{{index.CHANGE}}<i
-                                        [ngClass]="{'bi bi-arrow-up':index.CHANGE>0,'bi bi-arrow-down':index.CHANGE<0}"></i>
-                                </p>
+                <ng-container *ngIf="indexes_data.length > 0; else skeleton">
+                    <ng-container *ngFor="let index of indexes_data">
+                        <div class="main-div">
+                            <div class="title-div">
+                                <p class="label-title">{{index.INDEX}} </p>
+                            </div>
+                            <div class="numbers-div">
+                                <div class="closing-number"
+                                    [ngClass]="{'positive':index.CHANGE>0,'negative':index.CHANGE<0}">
+                                    <p class="label-title-2">
+                                        {{index.CLOSE}}
+                                    </p>
+                                    <p class="label-title-3">{{index.CHANGE}}<i
+                                            [ngClass]="{'bi bi-arrow-up':index.CHANGE>0,'bi bi-arrow-down':index.CHANGE<0}"></i>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </ng-container>
+                <ng-template #skeleton>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                </ng-template>
             </div>
         </div>
 
         <div class="">
-            <h3 class="title">Top 5 Gainers</h3>
+            <h3 class="title">Top 5 Gainers <sub class="timeframe">{{data?.TIMEFRAME}}</sub></h3>
             <div class="indexs-div">
-                <ng-container *ngFor="let index of data.TOP_5_GAINERS">
-                    <div class="main-div">
-                        <div class="title-div">
-                            <p class="label-title">{{index.SYMBOL}}</p>
-                        </div>
-                        <div class="numbers-div">
-                            <div class="closing-number"
-                                [ngClass]="{'positive':index.CHANGE>0,'negative':index.CHANGE<0}">
-                                <p class="label-title-2">
-                                    {{index.CLOSE}}
-                                </p>
-                                <p class="label-title-3">{{index.CHANGE}}%<i
-                                        [ngClass]="{'bi bi-arrow-up':index.CHANGE>0,'bi bi-arrow-down':index.CHANGE<0}"></i>
-                                </p>
+                <ng-container *ngIf="data; else skeleton1">
+                    <ng-container *ngFor="let index of data.TOP_5_GAINERS">
+                        <div class="main-div">
+                            <div class="title-div">
+                                <p class="label-title">{{index.SYMBOL}}</p>
+                            </div>
+                            <div class="numbers-div">
+                                <div class="closing-number"
+                                    [ngClass]="{'positive':index.CHANGE>0,'negative':index.CHANGE<0}">
+                                    <p class="label-title-2">
+                                        {{index.CLOSE}}
+                                    </p>
+                                    <p class="label-title-3">{{index.CHANGE}}%<i
+                                            [ngClass]="{'bi bi-arrow-up':index.CHANGE>0,'bi bi-arrow-down':index.CHANGE<0}"></i>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </ng-container>
+
+                <ng-template #skeleton1>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                    <div class="skeleton main-div"></div>
+                </ng-template>
+
             </div>
         </div>
 
         <div class="">
-            <h3 class="title">Top 5 Losers</h3>
+            <h3 class="title">Top 5 Losers <sub class="timeframe">{{data?.TIMEFRAME}}</sub></h3>
             <div class="indexs-div">
-                <ng-container *ngFor="let index of data.TOP_5_LOSERS">
-                    <div class="main-div">
-                        <div class="title-div">
-                            <p class="label-title">{{index.SYMBOL}}</p>
-                        </div>
-                        <div class="numbers-div">
-                            <div class="closing-number"
-                                [ngClass]="{'positive':index.CHANGE>0,'negative':index.CHANGE<0}">
-                                <p class="label-title-2">
-                                    {{index.CLOSE}}
-                                </p>
-                                <p class="label-title-3">{{index.CHANGE}}%<i
-                                        [ngClass]="{'bi bi-arrow-up':index.CHANGE>0,'bi bi-arrow-down':index.CHANGE<0}"></i>
-                                </p>
+                <ng-container *ngIf="data; else skeleton1">
+                    <ng-container *ngFor="let index of data.TOP_5_LOSERS">
+                        <div class="main-div">
+                            <div class="title-div">
+                                <p class="label-title">{{index.SYMBOL}}</p>
+                            </div>
+                            <div class="numbers-div">
+                                <div class="closing-number"
+                                    [ngClass]="{'positive':index.CHANGE>0,'negative':index.CHANGE<0}">
+                                    <p class="label-title-2">
+                                        {{index.CLOSE}}
+                                    </p>
+                                    <p class="label-title-3">{{index.CHANGE}}%<i
+                                            [ngClass]="{'bi bi-arrow-up':index.CHANGE>0,'bi bi-arrow-down':index.CHANGE<0}"></i>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </ng-container>
             </div>
         </div>
