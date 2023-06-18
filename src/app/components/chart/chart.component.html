@@ -9,8 +9,18 @@
     </div>
     <canvas #chart id="chart"></canvas>
     <div class="chart-controls">
-        <input aria-label="interval" type="range" (change)="changeIntervel(val.value)" #val class="form-range" min="0"
-            max="2000" id="customRange2">
+        <div class="time-interval">
+            <div class="interval-slider">
+                <input aria-label="interval" type="range" (input)="renderIntervalLabel($event,val.value)" (change)="changeIntervel($event,val.value)" #val class="form-range" [min]="stockMinTime"
+                [max]='stockMaxTime' id="customRange2">
+                <div #current_interval class="current-interval">{{currentStockTime | date: 'd/MM/yy'}}</div>
+            </div>
+            <div class="start-end-label">
+                <div class="end-label">{{stockMaxLabel | date:'d/MM/yy'}}</div>
+                <div class="start-label">{{stockMinLabel | date: 'd/MM/yy'}}</div>
+            </div>
+
+        </div>
         <div class="chart-type">
             <button (click)="changeStyle('line')"><span class="material-symbols-outlined">
                     show_chart

@@ -31,7 +31,7 @@ class TokenInterceptor implements HttpInterceptor{
                     {
                         next: (event) => {
                             if(event instanceof HttpResponse){
-                                console.log(event.headers.getAll("authorization"))
+                                // console.log(event.headers.getAll("authorization"))
                                 // console.log(event.headers.get("authorization"))
                                 document.cookie = `token=${event.headers.get("authorization")?.split(" ")[1]}`
                             }

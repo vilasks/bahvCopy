@@ -3,9 +3,33 @@
     flex-direction: row;
 }
 
+.time-interval{
+    flex-grow: 3;
+}
+
 .chart-type {
     display: flex;
     flex-direction: row;
+}
+
+.interval-slider{
+    position: relative;
+    
+}
+
+.current-interval{
+    position: absolute;
+    background-color: rgb(209, 210, 215);
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 999;
+}
+
+.start-end-label{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between
 }
 
 .top-actions {

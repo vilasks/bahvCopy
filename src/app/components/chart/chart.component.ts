@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr'
 export class ChartComponent implements OnInit {
   @ViewChild("modal", {static: false}) modal!:ElementRef;
   @ViewChild("chart", {static: false}) chartRef!:ElementRef;
+  @ViewChild("current_interval", {static: false}) current_interval!:ElementRef;
   constructor(
     private dataService:DataServiceService,
     private symbolService:SymbolsService,
@@ -48,6 +49,11 @@ export class ChartComponent implements OnInit {
   mailSent = false;
   otpProgress = false;
   otpVerified = false;
+  stockMinTime = 0;
+  stockMaxTime = 1;
+  currentStockTime:any;
+  stockMinLabel:any;
+  stockMaxLabel:any;
   ngOnInit(): void {
     let crosshair:any;
     let crosshairLabel = {
@@ -185,16 +191,15 @@ export class ChartComponent implements OnInit {
     this.symbolService.stock.subscribe(
       (data:string)=>{
         this.getDate(data)
+        this.getMinMaxTimestamps(data)
       }
     )
+    
+    this.getMinMaxTimestamps(this.symbol)
 
   }
 
-  ngAfterViewInit(){
-    window.addEventListener("beforeprint",(e)=>{
-      console.log("before print")
-    })
-  }
+  
   
   getDate(symbol=this.symbol){
     this.dataService.getDate(symbol).subscribe(
@@ -220,8 +225,9 @@ export class ChartComponent implements OnInit {
     this.chart.update()    
   }
 
-  changeIntervel(intervel:string){
+  changeIntervel(event:any,intervel:string){
     let i = parseInt(intervel)
+    this.currentInterval = i
     this.dataService.changeInterval(this.symbol,i).subscribe(
       (data:any)=>{
         this.updateChart(data)
@@ -247,26 +253,26 @@ export class ChartComponent implements OnInit {
     this.chart.update()
   }
 
-  wheelEvent(e:any){
-    if(e.deltaY>0){
-      this.currentInterval+=7
-      if(this.currentevent){
-        clearInterval(this.currentevent)
-        this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
-      }else{
-        this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
-      }
-    }else{
-      this.currentInterval-=7
-      if(this.currentevent){
-        clearInterval(this.currentevent)
-        this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
-      }else{
-        this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
-      }
-    }
-    e.preventDefault()
-  }
+  // wheelEvent(e:any){
+  //   if(e.deltaY>0){
+  //     this.currentInterval+=7
+  //     if(this.currentevent){
+  //       clearInterval(this.currentevent)
+  //       this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
+  //     }else{
+  //       this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
+  //     }
+  //   }else{
+  //     this.currentInterval-=7
+  //     if(this.currentevent){
+  //       clearInterval(this.currentevent)
+  //       this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
+  //     }else{
+  //       this.currentevent = setTimeout(()=>this.changeIntervel(this.currentInterval.toString()),2000)
+  //     }
+  //   }
+  //   e.preventDefault()
+  // }
 
   formatDate(val:string){
     let date = new Date(val).toLocaleDateString().split("/")
@@ -375,6 +381,40 @@ export class ChartComponent implements OnInit {
     return this.createAlert.controls
   }
 
+  renderIntervalLabel(event:any,intervel:string){
+    console.log(event.srcElement.clientWidth)
+    console.log(event.target.max)
+    console.log(event.srcElement.clientWidth/event.target.max)
+    console.log((event.srcElement.clientWidth/event.target.max) * parseInt(intervel))
+    console.log(this.current_interval.nativeElement.clientWidth/2)
+    this.currentStockTime = new Date(Date.parse(this.stockMinLabel) + (86400000 * parseInt(intervel)))
+    this.current_interval.nativeElement.style.left = `${((event.srcElement.clientWidth/event.target.max) * parseInt(intervel)) - this.current_interval.nativeElement.clientWidth/2}px`
+  }
 
+  getMinMaxTimestamps(stock:string){
+    this.symbolService.getMinMaxTimestamps(stock).subscribe(
+      (data:any)=>{
+        if(data.status == 1){
+          this.setMinMaxTimestamps(data.data)
+        }else{
+          this.toastr.error("Error while getting stock data. please try after sometime", "Error")
+        }
+      },
+      (err)=>{
+        this.toastr.error("Error while getting stock data. please try after sometime")
+        console.log(err)
+      }
+    )
+  }
+
+
+  setMinMaxTimestamps(data:any){
+    let timeDifference = (Date.parse(data.max) - Date.parse(data.min))/86400000
+    this.stockMinLabel = data.min
+    this.stockMaxLabel = data.max
+    console.log(timeDifference)
+    this.stockMinTime = 0
+    this.stockMaxTime = timeDifference
+  }
 
 }

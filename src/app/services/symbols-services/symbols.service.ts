@@ -50,4 +50,9 @@ export class SymbolsService{
     })
   }
 
+  getMinMaxTimestamps(stock:string){
+    console.log(stock)
+    return this.http.get(`${environment.apiUrl}/min-max-timestamps/${stock}`,{headers:{'content-type': 'application/json'}})
+  }
+
 }
