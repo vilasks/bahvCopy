@@ -45,7 +45,7 @@
             <div class="indexs-div">
                 <ng-container *ngIf="data; else skeleton1">
                     <ng-container *ngFor="let index of data.TOP_5_GAINERS">
-                        <div class="main-div">
+                        <div routerLink='/stock/{{index.SYMBOL}}' class="main-div">
                             <div class="title-div">
                                 <p class="label-title">{{index.SYMBOL}}</p>
                             </div>
@@ -80,7 +80,7 @@
             <div class="indexs-div">
                 <ng-container *ngIf="data; else skeleton1">
                     <ng-container *ngFor="let index of data.TOP_5_LOSERS">
-                        <div class="main-div">
+                        <div routerLink='/stock/{{index.SYMBOL}}' class="main-div">
                             <div class="title-div">
                                 <p class="label-title">{{index.SYMBOL}}</p>
                             </div>
