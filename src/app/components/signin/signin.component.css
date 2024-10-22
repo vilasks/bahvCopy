@@ -7,6 +7,21 @@
     justify-content: center;
 }
 
-.card {
+.card{
     width: 50vw;
 }
+
+/* small Mobile devices */
+@media screen and (max-width:900px) {
+    .card{
+        width: 90vw;
+    }
+}
+
+
+
+/* regular mobile devices */
+@media screen and (max-width:1023px) {}
+
+@media screen and (max-width:1199px) {}
+
